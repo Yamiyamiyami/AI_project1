@@ -7,8 +7,11 @@ using namespace std;
 roboClass **grid;
 int size;
 string line;
+int goalX;
+int goalY;
+
 
 void init(string x);
-void setEuc();
-void setMan();
+void getEuc();
+void getMan();
 void print();
