@@ -1,6 +1,7 @@
 #include "navigation.h"
 #include <math.h>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -26,15 +27,25 @@ void init(string temp){
 			for (int j = 0; j < size; ++j)
 			{
 				grid[i][j].type = line[j];
+				grid[i][j].localRow = i;
+				grid[i][j].localCol = j;
 				if (grid[i][j].type == 'g')
 				{
 					goalX = i;
 					goalY = j;
 				}
+				if (grid[i][j].type == 'i')
+				{
+					currentX = i;
+					currentY = j;
+				}
+				
 			}	
 
 		}
 	}
+	getEuc();
+	getMan();
 }
 void getEuc(){
 	
@@ -42,7 +53,12 @@ void getEuc(){
 	{
 		for (int j = 0; j < size; ++j)
 		{
-			grid[i][j].eucDist = sqrt(pow(i-goalX, 2)+ pow(j-goalY, 2));
+			if (grid[i][j].type == '+')
+			{
+				grid[i][j].eucDist = 1000;
+			}else{	
+				grid[i][j].eucDist = sqrt(pow(i-goalX, 2)+ pow(j-goalY, 2));
+			}
 		}
 	}
 }
@@ -51,9 +67,43 @@ void getMan(){
 	{
 		for (int j = 0; j < size; ++j)
 		{
-			grid[i][j].manDist = abs(i-goalX) + abs(j-goalY);
+			if(grid[i][j].type == '+')
+			{
+				grid[i][j].manDist = 1000;
+			}else{
+				grid[i][j].manDist = abs(i-goalX) + abs(j-goalY);
+			}
 		}
 	}
+}
+void addtoList(){
+	
+}
+void traverse(){
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size; ++j)
+		{
+			
+		}
+	}
+}
+void checkNbr(){
+	if(grid[currentX+1][currentY].type != '+' && !checkContains(currentX+1, currentY)){
+
+	}
+	if(grid[currentX-1][currentY].type != '+' && !checkContains(currentX-1, currentY)){
+		
+	}
+	if(grid[currentX][currentY+1].type != '+' && !checkContains(currentX, currentY+1)){
+		
+	}
+	if(grid[currentX][currentY-1].type != '+' && !checkContains(currentX, currentY-1)){
+		
+	}
+}
+bool checkContains(int x, int y){
+	return find(_path.begin(), _path.end(), grid[x][y]) != _path.end();
 }
 void print(){
 	for (int i = 0; i < size ; ++i)
@@ -64,7 +114,7 @@ void print(){
 		}
 		cout << endl;
 	}
-	getEuc();
+	
 	for (int i = 0; i < size ; ++i)
 	{
 		for (int j = 0; j < size; ++j)
@@ -74,7 +124,7 @@ void print(){
 		cout << endl;
 	}
 	cout << endl;
-	getMan();
+	
 	for (int i = 0; i < size; ++i)
 	{
 		for (int j = 0; j < size; ++j)
@@ -83,4 +133,5 @@ void print(){
 		}
 		cout << endl;
 	}
+	traverse();
 }

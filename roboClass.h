@@ -12,5 +12,6 @@ class roboClass{
 		int localCol;
 		bool visited;
 		roboClass();
+		bool operator==(const roboClass& right);
 };
 #endif

@@ -10,3 +10,6 @@ roboClass::roboClass(){
 	localCol = 0;
 	visited = false;
 }
+bool roboClass::operator==(const roboClass& right){
+	return(this->localRow==right.localRow && this->localCol == right.localCol);
+}

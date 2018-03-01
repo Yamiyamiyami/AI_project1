@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#include <list>
 #include "roboClass.cpp"
 
 using namespace std;
@@ -9,9 +10,17 @@ int size;
 string line;
 int goalX;
 int goalY;
-
+int currentX;
+int currentY;
+int intendedX;
+int intendedY;
+list<roboClass> _path;
 
 void init(string x);
 void getEuc();
 void getMan();
 void print();
+void traverse();
+void addtoList();
+void checkNbr();
+bool checkContains(int x, int y);
