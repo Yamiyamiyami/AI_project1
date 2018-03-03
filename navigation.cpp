@@ -9,6 +9,8 @@ int main(int argc, char *argv[]){
 	string temp = argv[1];//takes command line input as argument
 	init(temp.c_str());
 	print();
+	checkNbr();
+	findMinEuc();
 }
 void init(string temp){
 	ifstream temPlate;//getting stream and file input setup
@@ -21,10 +23,10 @@ void init(string temp){
 		for(int x = 0; x < size; ++x ){//creating the grid and assigning the size based on the first row
 			grid[x] = new roboClass[size];
 		}
-		for (int i = 1; i < size; ++i)//going throuh the grid and adding the contents of the text file to the array
+		for (int i = 0; i < size; ++i)//going throuh the grid and adding the contents of the text file to the array
 		{
 			getline(temPlate, line);
-			for (int j = 1; j < size; ++j)
+			for (int j = 0; j < size; ++j)
 			{
 				grid[i][j].type = line[j];
 				grid[i][j].localRow = i;
@@ -77,45 +79,50 @@ void getMan(){
 	}
 }
 void findMinEuc(){
+	grid[currentX][currentY].visited = true;
 	list<roboClass>::iterator it;
-	for(it = _path.begin(); it != _path.end(); ++it){
-    	cout<<(*it).eucDist<<endl;
-	}
+	/*for(it = _path.begin(); it != _path.end(); ++it){
+    	cout<<(*it).localRow<<"," << (*it).localCol<<endl;
+	}*/
 	it = min_element(_path.begin(), _path.end());
-	int tempX = (*it).localRow;
-	int tempY = (*it).localCol;
-	intendedX = tempX;
-	intendedY = tempY;
+	intendedX = (*it).localRow;
+	intendedY = (*it).localCol;
+	currentX = intendedX;
+	currentY = intendedY;
+	if (grid[currentX][currentY].type == 'g')
+	{
+		cout << "Success" <<endl;
+		exit(0);
+	}else{
+		grid[currentX][currentY].type = 'o';
+	}
+	//cout << "before" <<_path.size() << endl;
+	_path.remove(grid[intendedX][intendedY]);
 	cout << intendedX << "," << intendedY << endl;
-	
+	//cout << "after" << _path.size() << endl;
+	checkNbr();
+	print();
+	findMinEuc();	
 }
 void traverse(){
-	for (int i = 0; i < size; ++i)
-	{
-		for (int j = 0; j < size; ++j)
-		{
-			
-		}
-	}
 }
 void checkNbr(){
-	cout<<_path.size();
-	if(grid[currentX+1][currentY].type != '+' && !checkContains(currentX+1, currentY) && currentX < size-1){
+	if(currentX < size-1 && grid[currentX+1][currentY].type != '+' && !checkContains(currentX+1, currentY) && grid[currentX+1][currentY].visited != true){
 		_path.push_back(grid[currentX+1][currentY]);
-		cout<<"hi"<<endl;
-		cout<<_path.size() <<endl;
+		//cout << "hi" << endl;
+		
 	}
-	if(grid[currentX-1][currentY].type != '+' && !checkContains(currentX-1, currentY) && currentX != 0){
+	if(currentX != 0 && grid[currentX-1][currentY].type != '+' && !checkContains(currentX-1, currentY) && grid[currentX-1][currentY].visited != true){
 		_path.push_back(grid[currentX-1][currentY]);
-		cout<<"bye"<<endl;
+		//cout << "bye" << endl;
 	}
-	if(grid[currentX][currentY+1].type != '+' && !checkContains(currentX, currentY+1) && currentY < size-1){
+	if(currentY < size-1 && grid[currentX][currentY+1].type != '+' && !checkContains(currentX, currentY+1) && grid[currentX][currentY+1].visited != true){
 		_path.push_back(grid[currentX][currentY+1]);
-		cout<<"ok"<<endl;
+		//cout << "no" << endl;
 	}
-	if(grid[currentX][currentY-1].type != '+' && !checkContains(currentX, currentY-1) && currentY != 0){
+	if(currentY != 0 && grid[currentX][currentY-1].type != '+' && !checkContains(currentX, currentY-1) && grid[currentX][currentY-1].visited != true){
 		_path.push_back(grid[currentX][currentY-1]);
-		cout<<"ty"<<endl;
+		//cout << "ok" << endl;
 	}
 
 }
@@ -123,8 +130,6 @@ bool checkContains(int x, int y){
 	return find(_path.begin(), _path.end(), grid[x][y]) != _path.end();
 }
 void print(){
-	checkNbr();
-	findMinEuc();
 	for (int i = 0; i < size ; ++i)
 	{
 		for (int j = 0; j < size; ++j)
@@ -134,7 +139,7 @@ void print(){
 		cout << endl;
 	}
 	
-	for (int i = 0; i < size ; ++i)
+	/*for (int i = 0; i < size ; ++i)
 	{
 		for (int j = 0; j < size; ++j)
 		{
@@ -151,5 +156,5 @@ void print(){
 			cout << grid[i][j].manDist << " ";
 		}
 		cout << endl;
-	}
+	}*/
 }
