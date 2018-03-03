@@ -21,6 +21,6 @@ void getEuc();
 void getMan();
 void print();
 void traverse();
-void addtoList();
+void findMinEuc();
 void checkNbr();
 bool checkContains(int x, int y);

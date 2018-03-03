@@ -6,12 +6,14 @@ class roboClass{
 	public:
 		char type;
 		int currCost;
-		double eucDist;
-		double manDist;
+		float eucDist;
+		float manDist;
 		int localRow;
 		int localCol;
 		bool visited;
 		roboClass();
 		bool operator==(const roboClass& right);
+		bool operator<(const roboClass& right);
+		bool operator>(const roboClass& right);
 };
 #endif
