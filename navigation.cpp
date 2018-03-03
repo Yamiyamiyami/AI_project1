@@ -29,17 +29,17 @@ void init(string temp){
 			getline(temPlate, line);
 			for (int j = 0; j < size; ++j)
 			{
-				grid[i][j].type = line[j];
-				grid[i][j].localRow = i;
+				grid[i][j].type = line[j];//assigning the char that represents the "node" in the new grid
+				grid[i][j].localRow = i;//assigning the coordinates
 				grid[i][j].localCol = j;
 				if (grid[i][j].type == 'g')
 				{
-					goalX = i;
+					goalX = i;//labeling the goal state
 					goalY = j;
 				}
 				if (grid[i][j].type == 'i')
 				{
-					currentX = i;
+					currentX = i;//labeling the initial state
 					currentY = j;
 				}
 				
@@ -47,11 +47,11 @@ void init(string temp){
 
 		}
 	}
-	getEuc();
+	getEuc();//getting the two distance values
 	getMan();
 }
 void getEuc(){
-	
+	//iterating through the 2d array and assigning each node with a local value with the given equation.
 	for (int i = 0; i < size; ++i)
 	{
 		for (int j = 0; j < size; ++j)
@@ -79,7 +79,7 @@ void getMan(){
 		}
 	}
 }
-void findMinEuc(){
+void findMinEuc(){//finding the minimum distance cell and assigning that as the enw current node.
 	grid[currentX][currentY].visited = true;
 	list<roboClass>::iterator it;
 	/*for(it = _path.begin(); it != _path.end(); ++it){
@@ -107,7 +107,7 @@ void findMinEuc(){
 }
 void traverse(){
 }
-void checkNbr(){
+void checkNbr(){//checking the neighbors of the current cell while ignoring cells that are on the edge or have already been visited.
 	if(currentX < size-1 && grid[currentX+1][currentY].type != '+' && !checkContains(currentX+1, currentY) && grid[currentX+1][currentY].visited != true){
 		_path.push_back(grid[currentX+1][currentY]);
 		//cout << "hi" << endl;
@@ -124,13 +124,13 @@ void checkNbr(){
 	if(currentY != 0 && grid[currentX][currentY-1].type != '+' && !checkContains(currentX, currentY-1) && grid[currentX][currentY-1].visited != true){
 		_path.push_back(grid[currentX][currentY-1]);
 		//cout << "ok" << endl;
-	}
+	}//push the node into the fringe that is used later to find the ideal distance in findMinEuc
 
 }
-bool checkContains(int x, int y){
+bool checkContains(int x, int y){//checks if the node already exists and returns boolean, used to make sure no duplicates in list.
 	return find(_path.begin(), _path.end(), grid[x][y]) != _path.end();
 }
-void print(){
+void print(){//printing out the graph.
 	cout << "STEP: " << stepCount << endl;
 	for (int i = 0; i < size ; ++i)
 	{
@@ -141,23 +141,4 @@ void print(){
 		cout << endl;
 	}
 	stepCount += 1;
-	
-	/*for (int i = 0; i < size ; ++i)
-	{
-		for (int j = 0; j < size; ++j)
-		{
-			cout << grid[i][j].eucDist << " ";
-		}
-		cout << endl;
-	}
-	cout << endl;
-	
-	for (int i = 0; i < size; ++i)
-	{
-		for (int j = 0; j < size; ++j)
-		{
-			cout << grid[i][j].manDist << " ";
-		}
-		cout << endl;
-	}*/
 }
