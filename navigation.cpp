@@ -6,6 +6,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
+	stepCount = 0;
 	string temp = argv[1];//takes command line input as argument
 	init(temp.c_str());
 	print();
@@ -98,7 +99,7 @@ void findMinEuc(){
 	}
 	//cout << "before" <<_path.size() << endl;
 	_path.remove(grid[intendedX][intendedY]);
-	cout << intendedX << "," << intendedY << endl;
+	//cout << intendedX << "," << intendedY << endl;
 	//cout << "after" << _path.size() << endl;
 	checkNbr();
 	print();
@@ -130,6 +131,7 @@ bool checkContains(int x, int y){
 	return find(_path.begin(), _path.end(), grid[x][y]) != _path.end();
 }
 void print(){
+	cout << "STEP: " << stepCount << endl;
 	for (int i = 0; i < size ; ++i)
 	{
 		for (int j = 0; j < size; ++j)
@@ -138,6 +140,7 @@ void print(){
 		}
 		cout << endl;
 	}
+	stepCount += 1;
 	
 	/*for (int i = 0; i < size ; ++i)
 	{

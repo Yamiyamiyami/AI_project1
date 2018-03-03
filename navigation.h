@@ -14,6 +14,7 @@ int currentX;
 int currentY;
 int intendedX;
 int intendedY;
+int stepCount;
 list<roboClass> _path;
 
 void init(string x);
