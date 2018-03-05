@@ -4,18 +4,18 @@ using namespace std;
 roboClass::roboClass(){
 	type = ' ';
 	currCost = 0;
-	eucDist = 0;
-	manDist = 0;
+	Dist = 0;
 	localRow = 0;
 	localCol = 0;
+	prev = NULL;
 	visited = false;
 }
 bool roboClass::operator==(const roboClass& right){
 	return(this->localRow==right.localRow && this->localCol == right.localCol);
 }
 bool roboClass::operator>(const roboClass& right){
-	return(this->eucDist > right.eucDist && this->eucDist > right.eucDist);
+	return(this->Dist > right.Dist && this->Dist > right.Dist);
 }
 bool roboClass::operator<(const roboClass& right){
-	return(this->eucDist < right.eucDist && this->eucDist < right.eucDist);
+	return(this->Dist < right.Dist && this->Dist < right.Dist);
 }

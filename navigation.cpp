@@ -10,9 +10,9 @@ int main(int argc, char *argv[]){
 	string temp = argv[1];//takes command line input as argument
 	init(temp.c_str());
 	print();
+	getEuc();
 	checkNbr();
 	findMinEuc();
-	findMinMan();
 }
 void init(string temp){
 	ifstream temPlate;//getting stream and file input setup
@@ -48,8 +48,6 @@ void init(string temp){
 
 		}
 	}
-	getEuc();//getting the two distance values
-	getMan();
 }
 void getEuc(){
 	//iterating through the 2d array and assigning each node with a local value with the given equation.
@@ -59,9 +57,9 @@ void getEuc(){
 		{
 			if (grid[i][j].type == '+')
 			{
-				grid[i][j].eucDist = 1000;
+				grid[i][j].Dist = 1000;
 			}else{	
-				grid[i][j].eucDist = sqrt(pow(i-goalX, 2)+ pow(j-goalY, 2));
+				grid[i][j].Dist = sqrt(pow(i-goalX, 2)+ pow(j-goalY, 2));
 			}
 		}
 	}
@@ -73,9 +71,9 @@ void getMan(){
 		{
 			if(grid[i][j].type == '+')
 			{
-				grid[i][j].manDist = 1000;
+				grid[i][j].Dist = 1000;
 			}else{
-				grid[i][j].manDist = abs(i-goalX) + abs(j-goalY);
+				grid[i][j].Dist = abs(i-goalX) + abs(j-goalY);
 			}
 		}
 	}
@@ -93,8 +91,9 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 	currentY = intendedY;
 	if (grid[currentX][currentY].type == 'g')
 	{
-		cout << "Success" <<endl;
-		exit(0);
+		print();
+		getMan();
+		findMinMan();
 	}else{
 		grid[currentX][currentY].type = 'o';
 		/* to solve the last part of the assignment we need to add a counter after the above line so that everytime we make a move towards
@@ -113,7 +112,7 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 	//cout << intendedX << "," << intendedY << endl;
 	//cout << "after" << _path.size() << endl;
 	checkNbr();
-	print();
+	//print();
 	findMinEuc();	
 }
 void findMinMan(){
@@ -127,7 +126,7 @@ void findMinMan(){
 	currentY = intentY;
 	if(grid[currentX][currentY].type == 'g')
 	{
-		cout << "Success" <<endl;
+		print();
 		exit(0);
 	}
 	else{
@@ -135,7 +134,7 @@ void findMinMan(){
 	}
 	_path.remove(grid[intentX][intentY]);
 	checkNbr();
-	print();
+	//print();
 	findMinMan();
 }
 void traverse(){
@@ -143,19 +142,23 @@ void traverse(){
 void checkNbr(){//checking the neighbors of the current cell while ignoring cells that are on the edge or have already been visited.
 	if(currentX < size-1 && grid[currentX+1][currentY].type != '+' && !checkContains(currentX+1, currentY) && grid[currentX+1][currentY].visited != true){
 		_path.push_back(grid[currentX+1][currentY]);
+		grid[currentX+1][currentY].prev = &grid[currentX][currentY];
 		//cout << "hi" << endl;
 		
 	}
 	if(currentX != 0 && grid[currentX-1][currentY].type != '+' && !checkContains(currentX-1, currentY) && grid[currentX-1][currentY].visited != true){
 		_path.push_back(grid[currentX-1][currentY]);
+		grid[currentX-1][currentY].prev = &grid[currentX][currentY];
 		//cout << "bye" << endl;
 	}
 	if(currentY < size-1 && grid[currentX][currentY+1].type != '+' && !checkContains(currentX, currentY+1) && grid[currentX][currentY+1].visited != true){
 		_path.push_back(grid[currentX][currentY+1]);
+		grid[currentX][currentY+1].prev = &grid[currentX][currentY];
 		//cout << "no" << endl;
 	}
 	if(currentY != 0 && grid[currentX][currentY-1].type != '+' && !checkContains(currentX, currentY-1) && grid[currentX][currentY-1].visited != true){
 		_path.push_back(grid[currentX][currentY-1]);
+		grid[currentX][currentY-1].prev = &grid[currentX][currentY];
 		//cout << "ok" << endl;
 	}//push the node into the fringe that is used later to find the ideal distance in findMinEuc
 
@@ -164,7 +167,7 @@ bool checkContains(int x, int y){//checks if the node already exists and returns
 	return find(_path.begin(), _path.end(), grid[x][y]) != _path.end();
 }
 void print(){//printing out the graph.
-	cout << "STEP: " << stepCount << endl;
+	cout << "Success" <<endl;
 	for (int i = 0; i < size ; ++i)
 	{
 		for (int j = 0; j < size; ++j)
@@ -173,5 +176,4 @@ void print(){//printing out the graph.
 		}
 		cout << endl;
 	}
-	stepCount += 1;
 }
