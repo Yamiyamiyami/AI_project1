@@ -12,6 +12,7 @@ int main(int argc, char *argv[]){
 	print();
 	checkNbr();
 	findMinEuc();
+	findMinMan();
 }
 void init(string temp){
 	ifstream temPlate;//getting stream and file input setup
@@ -104,6 +105,28 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 	checkNbr();
 	print();
 	findMinEuc();	
+}
+void findMinMan(){
+	grid[currentX][currentY].visited = true;
+	list<roboClass>::iterator iterate;
+
+	iterate = min_element(_path.begin(),_path.end());
+	intentX = (*iterate).localRow;
+	intentY = (*iterate).localCol;
+	currentX = intentX;
+	currentY = intentY;
+	if(grid[currentX][currentY].type == 'g')
+	{
+		cout << "Success" <<endl;
+		exit(0);
+	}
+	else{
+		grid[currentX][currentY].type == 'o';
+	}
+	_path.remove(grid[intentX][intentY]);
+	checkNbr();
+	print();
+	findMinMan();
 }
 void traverse(){
 }

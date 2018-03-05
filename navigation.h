@@ -14,6 +14,8 @@ int currentX;
 int currentY;
 int intendedX;
 int intendedY;
+int intentX;
+int intentY;
 int stepCount;
 list<roboClass> _path;
 
@@ -23,5 +25,6 @@ void getMan();
 void print();
 void traverse();
 void findMinEuc();
+void findMinMan();
 void checkNbr();
 bool checkContains(int x, int y);
