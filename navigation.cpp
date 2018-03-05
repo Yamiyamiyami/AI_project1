@@ -97,6 +97,16 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 		exit(0);
 	}else{
 		grid[currentX][currentY].type = 'o';
+		/* to solve the last part of the assignment we need to add a counter after the above line so that everytime we make a move towards
+		the goal, we increment the cost by 1 (g(N)).  then we need to find a way to include the values that we get from the 
+		getEuc() and getMan() functions.
+
+		something like:
+		else{
+			grid[currentX][currentY].type = 'o';
+			costCounter = 1 + grid[i][j].eucDist; (or .manDist)
+		}
+		*/
 	}
 	//cout << "before" <<_path.size() << endl;
 	_path.remove(grid[intendedX][intendedY]);
