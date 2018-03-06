@@ -93,7 +93,7 @@ void getMan(){
 		}
 	}
 }
-void findMinEuc(){//finding the minimum distance cell and assigning that as the enw current node.
+void findMinEuc(){//finding the minimum distance cell and assigning that as the new current node.
 	grid[currentX][currentY].visited = true;
 	list<roboClass>::iterator it;
 	it = min_element(_path.begin(), _path.end());
@@ -104,9 +104,9 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 	if (grid[currentX][currentY].type == 'g')
 	{
 		cout << "Euclidian" << endl;
-		_path.clear();
 		getTrail();
 		print();
+		_path.clear();
 		init(temp.c_str());
 		getMan();
 		checkNbr();
@@ -119,7 +119,7 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 	checkNbr();
 	findMinEuc();	
 }
-void findMinMan(){
+void findMinMan(){//finding the minimum distance cell and assigning that as the new current node.
 	grid[currentX][currentY].visited = true;
 	list<roboClass>::iterator it;
 	it = min_element(_path.begin(),_path.end());
@@ -130,11 +130,11 @@ void findMinMan(){
 	if(grid[currentX][currentY].type == 'g')
 	{
 		cout << "Manhattan" << endl;
-		_path.clear();
 		getTrail();
 		print();
+		_path.clear();
 		init(temp.c_str());
-		getMan();
+		getEuc();
 		checkNbr();
 		findMinEucwithCost();
 	}
@@ -146,7 +146,7 @@ void findMinMan(){
 	checkNbr();
 	findMinMan();
 }
-void findMinEucwithCost(){//finding the minimum distance cell and assigning that as the enw current node.
+void findMinEucwithCost(){//finding the minimum distance cell and assigning that as the new current node.
 	mode = true;
 	grid[currentX][currentY].visited = true;
 	list<roboClass>::iterator it;
@@ -158,9 +158,9 @@ void findMinEucwithCost(){//finding the minimum distance cell and assigning that
 	if (grid[currentX][currentY].type == 'g')
 	{
 		cout << "Euclidian with Cost" << endl;
-		_path.clear();
 		getTrail();
 		print();
+		_path.clear();
 		init(temp.c_str());
 		getMan();
 		checkNbr();
@@ -241,10 +241,8 @@ void checkNbr(){//checking the neighbors of the current cell while ignoring cell
 bool checkContains(int x, int y){//checks if the node already exists and returns boolean, used to make sure no duplicates in list.
 	return find(_path.begin(), _path.end(), grid[x][y]) != _path.end();
 }
-void print(){//printing out the graph.
+void print(){//printing out the final graph with correct backtracking.
 	cout << "Success" <<endl;
-	cout << endl;
-	cout << endl;
 	for (int i = 0; i < size ; ++i)
 	{
 		for (int j = 0; j < size; ++j)
@@ -254,14 +252,14 @@ void print(){//printing out the graph.
 		cout << endl;
 	}
 	cout << "Number of steps: " << stepCount << endl;
-	cout << "Number of nodes: " << nodeCount << endl;
+	cout << "Number of nodes: " << _path.size() << endl;
 	stepCount = 0;
 	nodeCount = 0;
 	
 	cout << endl;
 	cout << endl;
 }
-void getTrail(){
+void getTrail(){//traces nodes backwards to root from goal therefore ignoring alternate paths
 	roboClass *rawr = &grid2[goalX][goalY];
 	while(rawr->prev!=NULL){
 		rawr = rawr->prev;
