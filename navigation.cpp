@@ -10,7 +10,6 @@ int main(int argc, char *argv[]){
 	mode = false;
 	temp = argv[1];//takes command line input as argument
 	init(temp.c_str());
-	//print();
 	getEuc();
 	checkNbr();
 	findMinEuc();
@@ -97,9 +96,6 @@ void getMan(){
 void findMinEuc(){//finding the minimum distance cell and assigning that as the enw current node.
 	grid[currentX][currentY].visited = true;
 	list<roboClass>::iterator it;
-	/*for(it = _path.begin(); it != _path.end(); ++it){
-    	cout<<(*it).localRow<<"," << (*it).localCol<<endl;
-	}*/
 	it = min_element(_path.begin(), _path.end());
 	intendedX = (*it).localRow;
 	intendedY = (*it).localCol;
@@ -108,10 +104,7 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 	if (grid[currentX][currentY].type == 'g')
 	{
 		cout << "Euclidian" << endl;
-		//print();
-		//cout << "before" <<_path.size() << endl;
 		_path.clear();
-		//cout << "after" << _path.size() << endl;
 		getTrail();
 		print();
 		init(temp.c_str());
@@ -120,24 +113,10 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 		findMinMan();
 	}else{
 		grid[currentX][currentY].type = 'o';
-		eucCount++;
-		/* to solve the last part of the assignment we need to add a counter after the above line so that everytime we make a move towards
-		the goal, we increment the cost by 1 (g(N)).  then we need to find a way to include the values that we get from the 
-		getEuc() and getMan() functions.
-
-		something like:
-		else{
-			grid[currentX][currentY].type = 'o';
-			costCounter = 1 + grid[i][j].eucDist; (or .manDist)
-		}
-		*/
 	}
-	//cout << "before" <<_path.size() << endl;
 	_path.remove(grid[intendedX][intendedY]);
-	//cout << intendedX << "," << intendedY << endl;
-	//cout << "after" << _path.size() << endl;
+	nodeCount--;
 	checkNbr();
-	//print();
 	findMinEuc();	
 }
 void findMinMan(){
@@ -148,13 +127,10 @@ void findMinMan(){
 	intendedY = (*it).localCol;
 	currentX = intendedX;
 	currentY = intendedY;
-	// cout << currentX << " and " << currentY << endl;
 	if(grid[currentX][currentY].type == 'g')
 	{
 		cout << "Manhattan" << endl;
-		//print();
 		_path.clear();
-		//cout << "after" << _path.size() << endl;
 		getTrail();
 		print();
 		init(temp.c_str());
@@ -164,21 +140,16 @@ void findMinMan(){
 	}
 	else{
 		grid[currentX][currentY].type = 'o';
-		manCount++;
-		// cout << "HSDIFSDJLF" << endl;
 	}
 	_path.remove(grid[intendedX][intendedY]);
+	nodeCount--;
 	checkNbr();
-	//print();
 	findMinMan();
 }
 void findMinEucwithCost(){//finding the minimum distance cell and assigning that as the enw current node.
 	mode = true;
 	grid[currentX][currentY].visited = true;
 	list<roboClass>::iterator it;
-	/*for(it = _path.begin(); it != _path.end(); ++it){
-    	cout<<(*it).localRow<<"," << (*it).localCol<<endl;
-	}*/
 	it = min_element(_path.begin(), _path.end());
 	intendedX = (*it).localRow;
 	intendedY = (*it).localCol;
@@ -187,10 +158,7 @@ void findMinEucwithCost(){//finding the minimum distance cell and assigning that
 	if (grid[currentX][currentY].type == 'g')
 	{
 		cout << "Euclidian with Cost" << endl;
-		//print();
-		//cout << "before" <<_path.size() << endl;
 		_path.clear();
-		//cout << "after" << _path.size() << endl;
 		getTrail();
 		print();
 		init(temp.c_str());
@@ -199,14 +167,10 @@ void findMinEucwithCost(){//finding the minimum distance cell and assigning that
 		findMinManwithCost();
 	}else{
 		grid[currentX][currentY].type = 'o';
-		eucCount++;
 	}
-	//cout << "before" <<_path.size() << endl;
 	_path.remove(grid[intendedX][intendedY]);
-	//cout << intendedX << "," << intendedY << endl;
-	//cout << "after" << _path.size() << endl;
+	nodeCount--;
 	checkNbr();
-	//print();
 	findMinEucwithCost();	
 }
 void findMinManwithCost(){
@@ -217,23 +181,19 @@ void findMinManwithCost(){
 	intendedY = (*it).localCol;
 	currentX = intendedX;
 	currentY = intendedY;
-	// cout << currentX << " and " << currentY << endl;
 	if(grid[currentX][currentY].type == 'g')
 	{
 		cout << "Manhattan with Cost" << endl;
-		//print();
 		getTrail();
 		print();
 		exit(0);
 	}
 	else{
 		grid[currentX][currentY].type = 'o';
-		manCount++;
-		// cout << "HSDIFSDJLF" << endl;
 	}
 	_path.remove(grid[intendedX][intendedY]);
+	nodeCount--;
 	checkNbr();
-	//print();
 	findMinManwithCost();
 }
 void checkNbr(){//checking the neighbors of the current cell while ignoring cells that are on the edge or have already been visited.
@@ -242,38 +202,39 @@ void checkNbr(){//checking the neighbors of the current cell while ignoring cell
 			grid[currentX+1][currentY].currCost = grid[currentX][currentY].currCost+1;
 		}
 		_path.push_back(grid[currentX+1][currentY]);
+		nodeCount++;
 		grid[currentX+1][currentY].prev = &grid[currentX][currentY];
-		grid2[currentX+1][currentY].prev = &grid2[currentX][currentY];
-
-		//cout << "hi" << endl;
-		
+		grid2[currentX+1][currentY].prev = &grid2[currentX][currentY];		
 	}
+
 	if(currentX != 0 && grid[currentX-1][currentY].type != '+' && !checkContains(currentX-1, currentY) && grid[currentX-1][currentY].visited != true){
 		if(mode){
 			grid[currentX-1][currentY].currCost = grid[currentX][currentY].currCost+1;
 		}
 		_path.push_back(grid[currentX-1][currentY]);
+		nodeCount++;
 		grid[currentX-1][currentY].prev = &grid[currentX][currentY];
 		grid2[currentX-1][currentY].prev = &grid2[currentX][currentY];
-		//cout << "bye" << endl;
 	}
+
 	if(currentY < size-1 && grid[currentX][currentY+1].type != '+' && !checkContains(currentX, currentY+1) && grid[currentX][currentY+1].visited != true){
 		if(mode){
 			grid[currentX][currentY+1].currCost = grid[currentX][currentY].currCost+1;
 		}
 		_path.push_back(grid[currentX][currentY+1]);
+		nodeCount++;
 		grid[currentX][currentY+1].prev = &grid[currentX][currentY];
 		grid2[currentX][currentY+1].prev = &grid2[currentX][currentY];
-		//cout << "no" << endl;
 	}
+
 	if(currentY != 0 && grid[currentX][currentY-1].type != '+' && !checkContains(currentX, currentY-1) && grid[currentX][currentY-1].visited != true){
 		if(mode){
 			grid[currentX][currentY-1].currCost = grid[currentX][currentY].currCost+1;
 		}
 		_path.push_back(grid[currentX][currentY-1]);
+		nodeCount++;
 		grid[currentX][currentY-1].prev = &grid[currentX][currentY];
 		grid2[currentX][currentY-1].prev = &grid2[currentX][currentY];
-		//cout << "ok" << endl;
 	}//push the node into the fringe that is used later to find the ideal distance in findMinEuc
 
 }
@@ -292,6 +253,10 @@ void print(){//printing out the graph.
 		}
 		cout << endl;
 	}
+	cout << "Number of steps: " << stepCount << endl;
+	cout << "Number of nodes: " << nodeCount << endl;
+	stepCount = 0;
+	nodeCount = 0;
 	
 	cout << endl;
 	cout << endl;
@@ -300,9 +265,8 @@ void getTrail(){
 	roboClass *rawr = &grid2[goalX][goalY];
 	while(rawr->prev!=NULL){
 		rawr = rawr->prev;
-		//cout << rawr->localRow << " " << rawr->localCol << endl;
 		grid2[rawr->localRow][rawr->localCol].type = 'o';
+		stepCount++;
 	}
 	grid2[rawr->localRow][rawr->localCol].type = 'i';
-
 }

@@ -16,10 +16,9 @@ int currentX;
 int currentY;
 int intendedX;
 int intendedY;
-int eucCount;
-bool mode; 
-int manCount;
+bool mode;
 int stepCount;
+int nodeCount;
 list<roboClass> _path;
 
 void init(string x);
