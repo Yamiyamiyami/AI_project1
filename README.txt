@@ -3,11 +3,11 @@ Names:
 	Marc Karam
 
 E-mail:
-	@mail.chapman.edu
+	lin212@mail.chapman.edu
 	karam105@mail.chapman.edu
 
 ID:
-	
+	1931546
 	1908847
 
 Collaborations:
