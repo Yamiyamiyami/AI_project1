@@ -80,6 +80,7 @@ void getEuc(){
 	}
 }
 void getMan(){
+	//iterating through the 2d array and assigning each node with a local value with the given equation.
 	for (int i = 0; i < size; ++i)
 	{
 		for (int j = 0; j < size; ++j)
@@ -115,7 +116,6 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 		grid[currentX][currentY].type = 'o';
 	}
 	_path.remove(grid[intendedX][intendedY]);
-	nodeCount--;
 	checkNbr();
 	findMinEuc();	
 }
@@ -142,7 +142,6 @@ void findMinMan(){//finding the minimum distance cell and assigning that as the 
 		grid[currentX][currentY].type = 'o';
 	}
 	_path.remove(grid[intendedX][intendedY]);
-	nodeCount--;
 	checkNbr();
 	findMinMan();
 }
@@ -169,11 +168,10 @@ void findMinEucwithCost(){//finding the minimum distance cell and assigning that
 		grid[currentX][currentY].type = 'o';
 	}
 	_path.remove(grid[intendedX][intendedY]);
-	nodeCount--;
 	checkNbr();
 	findMinEucwithCost();	
 }
-void findMinManwithCost(){
+void findMinManwithCost(){//finding the minimum distance cell and assigning that as the new current node.
 	grid[currentX][currentY].visited = true;
 	list<roboClass>::iterator it;
 	it = min_element(_path.begin(),_path.end());
@@ -192,7 +190,6 @@ void findMinManwithCost(){
 		grid[currentX][currentY].type = 'o';
 	}
 	_path.remove(grid[intendedX][intendedY]);
-	nodeCount--;
 	checkNbr();
 	findMinManwithCost();
 }
@@ -202,7 +199,6 @@ void checkNbr(){//checking the neighbors of the current cell while ignoring cell
 			grid[currentX+1][currentY].currCost = grid[currentX][currentY].currCost+1;
 		}
 		_path.push_back(grid[currentX+1][currentY]);
-		nodeCount++;
 		grid[currentX+1][currentY].prev = &grid[currentX][currentY];
 		grid2[currentX+1][currentY].prev = &grid2[currentX][currentY];		
 	}
@@ -212,7 +208,6 @@ void checkNbr(){//checking the neighbors of the current cell while ignoring cell
 			grid[currentX-1][currentY].currCost = grid[currentX][currentY].currCost+1;
 		}
 		_path.push_back(grid[currentX-1][currentY]);
-		nodeCount++;
 		grid[currentX-1][currentY].prev = &grid[currentX][currentY];
 		grid2[currentX-1][currentY].prev = &grid2[currentX][currentY];
 	}
@@ -222,7 +217,6 @@ void checkNbr(){//checking the neighbors of the current cell while ignoring cell
 			grid[currentX][currentY+1].currCost = grid[currentX][currentY].currCost+1;
 		}
 		_path.push_back(grid[currentX][currentY+1]);
-		nodeCount++;
 		grid[currentX][currentY+1].prev = &grid[currentX][currentY];
 		grid2[currentX][currentY+1].prev = &grid2[currentX][currentY];
 	}
@@ -232,7 +226,6 @@ void checkNbr(){//checking the neighbors of the current cell while ignoring cell
 			grid[currentX][currentY-1].currCost = grid[currentX][currentY].currCost+1;
 		}
 		_path.push_back(grid[currentX][currentY-1]);
-		nodeCount++;
 		grid[currentX][currentY-1].prev = &grid[currentX][currentY];
 		grid2[currentX][currentY-1].prev = &grid2[currentX][currentY];
 	}//push the node into the fringe that is used later to find the ideal distance in findMinEuc
@@ -254,7 +247,6 @@ void print(){//printing out the final graph with correct backtracking.
 	cout << "Number of steps: " << stepCount << endl;
 	cout << "Number of nodes: " << _path.size() << endl;
 	stepCount = 0;
-	nodeCount = 0;
 	
 	cout << endl;
 	cout << endl;

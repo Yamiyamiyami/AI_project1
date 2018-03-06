@@ -14,8 +14,8 @@ bool roboClass::operator==(const roboClass& right){
 	return(this->localRow==right.localRow && this->localCol == right.localCol);
 }
 bool roboClass::operator>(const roboClass& right){
-	return(this->Dist > right.Dist);
+	return(this->Dist+this->currCost > right.Dist + right.currCost);
 }
 bool roboClass::operator<(const roboClass& right){
-	return(this->Dist < right.Dist);
+	return(this->Dist+this->currCost < right.Dist + right.currCost);
 }
