@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char *argv[]){
 	stepCount = 0;
-	string temp = argv[1];//takes command line input as argument
+	temp = argv[1];//takes command line input as argument
 	init(temp.c_str());
 	print();
 	getEuc();
@@ -91,11 +91,18 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 	currentY = intendedY;
 	if (grid[currentX][currentY].type == 'g')
 	{
+		cout << "Euclidian" << endl;
 		print();
+		init(temp.c_str());
+		cout << "before" <<_path.size() << endl;
+		_path.clear();
+		cout << "after" << _path.size() << endl;
 		getMan();
+		checkNbr();
 		findMinMan();
 	}else{
 		grid[currentX][currentY].type = 'o';
+		eucCount++;
 		/* to solve the last part of the assignment we need to add a counter after the above line so that everytime we make a move towards
 		the goal, we increment the cost by 1 (g(N)).  then we need to find a way to include the values that we get from the 
 		getEuc() and getMan() functions.
@@ -117,22 +124,25 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 }
 void findMinMan(){
 	grid[currentX][currentY].visited = true;
-	list<roboClass>::iterator iterate;
-
-	iterate = min_element(_path.begin(),_path.end());
-	intentX = (*iterate).localRow;
-	intentY = (*iterate).localCol;
-	currentX = intentX;
-	currentY = intentY;
+	list<roboClass>::iterator it;
+	it = min_element(_path.begin(),_path.end());
+	intendedX = (*it).localRow;
+	intendedY = (*it).localCol;
+	currentX = intendedX;
+	currentY = intendedY;
+	// cout << currentX << " and " << currentY << endl;
 	if(grid[currentX][currentY].type == 'g')
 	{
+		cout << "Manhattan" << endl;
 		print();
 		exit(0);
 	}
 	else{
-		grid[currentX][currentY].type == 'o';
+		grid[currentX][currentY].type = 'o';
+		manCount++;
+		// cout << "HSDIFSDJLF" << endl;
 	}
-	_path.remove(grid[intentX][intentY]);
+	_path.remove(grid[intendedX][intendedY]);
 	checkNbr();
 	//print();
 	findMinMan();
@@ -176,4 +186,7 @@ void print(){//printing out the graph.
 		}
 		cout << endl;
 	}
+	cout << eucCount << " and " << manCount << endl;
+	cout << endl;
+	cout << endl;
 }

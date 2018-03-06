@@ -6,6 +6,7 @@
 
 using namespace std;
 roboClass **grid;
+string temp;
 int size;
 string line;
 int goalX;
@@ -16,6 +17,8 @@ int intendedX;
 int intendedY;
 int intentX;
 int intentY;
+int eucCount;
+int manCount;
 int stepCount;
 list<roboClass> _path;
 
