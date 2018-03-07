@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <stdlib.h>
 #include <list>
@@ -19,6 +20,7 @@ int intendedY;
 bool mode;
 int stepCount;
 int nodeCount;
+ofstream output;
 list<roboClass> _path;
 
 void init(string x);

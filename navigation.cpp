@@ -1,6 +1,7 @@
 #include "navigation.h"
 #include <math.h>
 #include <fstream>
+#include <iostream>
 #include <algorithm>
 
 using namespace std;
@@ -9,6 +10,7 @@ int main(int argc, char *argv[]){
 	stepCount = 0;
 	mode = false;
 	temp = argv[1];//takes command line input as argument
+	output.open("output.txt");
 	init(temp.c_str());
 	getEuc();
 	checkNbr();
@@ -105,6 +107,7 @@ void findMinEuc(){//finding the minimum distance cell and assigning that as the 
 	if (grid[currentX][currentY].type == 'g')
 	{
 		cout << "Euclidian" << endl;
+		output << "Euclidian" << endl;
 		getTrail();
 		print();
 		_path.clear();
@@ -130,6 +133,7 @@ void findMinMan(){//finding the minimum distance cell and assigning that as the 
 	if(grid[currentX][currentY].type == 'g')
 	{
 		cout << "Manhattan" << endl;
+		output << "Manhattan" << endl;
 		getTrail();
 		print();
 		_path.clear();
@@ -157,6 +161,7 @@ void findMinEucwithCost(){//finding the minimum distance cell and assigning that
 	if (grid[currentX][currentY].type == 'g')
 	{
 		cout << "Euclidian with Cost" << endl;
+		output << "Euclidian with Cost" << endl;
 		getTrail();
 		print();
 		_path.clear();
@@ -182,6 +187,7 @@ void findMinManwithCost(){//finding the minimum distance cell and assigning that
 	if(grid[currentX][currentY].type == 'g')
 	{
 		cout << "Manhattan with Cost" << endl;
+		output << "Manhattan with Cost" << endl;
 		getTrail();
 		print();
 		exit(0);
@@ -241,15 +247,21 @@ void print(){//printing out the final graph with correct backtracking.
 		for (int j = 0; j < size; ++j)
 		{
 			cout << grid2[i][j].type;
+			output << grid2[i][j].type;
 		}
 		cout << endl;
+		output << endl;
 	}
 	cout << "Number of steps: " << stepCount << endl;
 	cout << "Number of nodes: " << _path.size() << endl;
+	output << "Number of steps: " << stepCount << endl;
+	output << "Number of nodes: " << _path.size() << endl;
 	stepCount = 0;
 	
 	cout << endl;
 	cout << endl;
+	output << endl;
+	output << endl;
 }
 void getTrail(){//traces nodes backwards to root from goal therefore ignoring alternate paths
 	roboClass *rawr = &grid2[goalX][goalY];
